@@ -1,11 +1,8 @@
 import React from "react";
 import ReactMapGL, {Marker, Popup} from 'react-map-gl';
-import parse from 'html-react-parser';
-import {Location} from "../../shared/interfaces/location/location.interface";
+import {Location} from "../../shared/interfaces/Location/Location.interface";
 
 class Map extends React.Component<any> {
-  parsedData = parse(this.props.selectedLocation?.description);
-
   render() {
     return <ReactMapGL
       {...this.props.viewport}
@@ -42,7 +39,7 @@ class Map extends React.Component<any> {
               {`${this.props.selectedLocation?.city}, ${this.props.selectedLocation?.country}`}
             </h2>
             <div>
-              { this.parsedData }
+              { this.props.selectedLocation?.description }
             </div>
           </div>
         </Popup>

@@ -1,5 +1,5 @@
-import {Location} from "../location/location.interface";
-import {Sort} from "../sort/sort.interface";
+import {Location} from "../Location/Location.interface";
+import {Sort} from "../Sort/Sort.interface";
 
 export interface TimeWrapperState {
   viewport: any,

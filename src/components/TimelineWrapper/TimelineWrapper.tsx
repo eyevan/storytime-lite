@@ -2,10 +2,10 @@ import React, {ReactNode} from "react";
 import {FlyToInterpolator, ViewportProps} from 'react-map-gl';
 
 import Map from "../Map/Map";
-import {locations} from "../../shared/data/locations/locations.object";
+import {locations} from "../../shared/data/Locations/Locations.object";
 import Timeline from "../Timeline/Timeline";
-import {Sort} from "../../shared/interfaces/sort/sort.interface";
-import {Location} from "../../shared/interfaces/location/location.interface";
+import {Sort} from "../../shared/interfaces/Sort/Sort.interface";
+import {Location} from "../../shared/interfaces/Location/Location.interface";
 import {TimeWrapperState} from "../../shared/interfaces/TimeWrapper/TimeWrapperState.interface";
 
 class TimelineWrapper extends React.Component<{}, TimeWrapperState> {
@@ -56,7 +56,7 @@ class TimelineWrapper extends React.Component<{}, TimeWrapperState> {
   }
 
   /**
-   * Set the current location to the state
+   * Set the current Location to the state
    *
    * @param location
    * @private
@@ -69,22 +69,6 @@ class TimelineWrapper extends React.Component<{}, TimeWrapperState> {
   }
 
   /**
-   * Check if a location is in range.
-   *
-   * @param mark
-   * @param location
-   * @private
-   */
-  private isInRange(mark: number, location: Location): boolean {
-    console.log('mark range', {
-      mark,
-      start: location.range.start,
-      end: location.range.end
-    })
-    return mark >= location.range.start && mark <= location.range.end
-  }
-
-  /**
    * "Fly" to the selected destination
    *
    * @param location Location to fly to
@@ -92,13 +76,13 @@ class TimelineWrapper extends React.Component<{}, TimeWrapperState> {
    */
   private travelTo(location: Location): void {
     this.setSelectedLocation(null);
-    setTimeout(() => this.setSelectedLocation(location), 1200);
+    setTimeout(() => this.setSelectedLocation(location), 250);
 
     this.setViewport({
       latitude: location.coordinates.lat,
       longitude: location.coordinates.long,
       zoom: 12,
-      transitionDuration: 1500,
+      transitionDuration: 500,
       transitionInterpolator: new FlyToInterpolator()
     })
   }
@@ -131,7 +115,7 @@ class TimelineWrapper extends React.Component<{}, TimeWrapperState> {
 
   render(): ReactNode {
     return (
-      <div className="TimelineWrapper py-5">
+      <div className="TimelineWrapper py-4">
         <div className="container">
           <Timeline
             locations={this.state.locations}

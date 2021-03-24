@@ -1,4 +1,4 @@
-import {Location} from "../../interfaces/location/location.interface";
+import {Location} from "../../interfaces/Location/Location.interface";
 
 export const locations: Array<Location> = [
   {
@@ -48,7 +48,7 @@ export const locations: Array<Location> = [
     city: 'Sofia',
     country: 'Bulgaria',
     description: 'Sofia (/ˈsoʊfiə, ˈsɒf-, soʊˈfiːə/ SOH-fee-ə, SOF-;[14][15] Bulgarian: София, romanized: Sofiya,[16][17] IPA: [ˈsɔfijɐ] (About this soundlisten)) is the capital and largest city of Bulgaria. It is situated in the eponymous valley at the foot of the Vitosha mountain in the western parts of the country. The city is built west of the Iskar river, and has many mineral springs, such as the Sofia Central Mineral Baths. It has a humid continental climate. Being in the centre of the Balkans, it is midway between the Black Sea and the Adriatic Sea, and closest to the Aegean Sea.',
-    range: {
+    Range: {
       start: 2015,
       end: 2021
     },

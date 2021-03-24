@@ -1,12 +1,12 @@
 import React, {ReactNode} from 'react';
-import {Location} from "../../shared/interfaces/location/location.interface";
+import {Location} from "../../shared/interfaces/Location/Location.interface";
 import './Timeline.scss'
-import {Sort} from "../../shared/interfaces/sort/sort.interface";
+import LocationsMenu from "../LocationsMenu/LocationsMenu";
+import {FilterOptions, SortingOptions} from "./Timeline.config";
 
 class Timeline extends React.Component<any> {
-
   /**
-   * Filter the locations by the country's name
+   * Filter the Locations by the country's name
    * @param locations
    * @private
    */
@@ -18,7 +18,7 @@ class Timeline extends React.Component<any> {
   }
 
   /**
-   * Sort an array of locations
+   * Sort an array of Locations
    * @private
    */
   private sort(): Array<Location> {
@@ -67,86 +67,38 @@ class Timeline extends React.Component<any> {
     return a.localeCompare(b);
   }
 
-  /**
-   * Check if this the button should have an active class
-   *
-   * @param sort
-   * @private
-   */
-  private isActiveSort(sort: Sort): string {
-    return sort.type === this.props.activeSort.type && sort.sortBy === this.props.activeSort.sortBy ? 'active' : '';
-  }
-
-  /**
-   * Check if this the button should have an active class
-   *
-   * @param filter
-   * @private
-   */
-  private isFilterActive(filter: string): boolean {
-    return filter === this.props.activeFilter;
-  }
-
   render(): ReactNode {
     return (
       <div>
         <div className="row mb-4">
           <div className="col-6">
-            <h3>Sort by:</h3>
-            <div>
-              <button
-                className={`btn btn-light mr-3 ${this.isActiveSort({type: 'country', sortBy:'asc'})}`}
-                onClick={() => this.props.onSort({type: 'country', sortBy:'asc'})}
-              >
-                Name (asc)
-              </button>
-              <button
-                className={`btn btn-light mr-3 ${this.isActiveSort({type: 'country', sortBy:'desc'})}`}
-                onClick={() => this.props.onSort({type: 'country', sortBy:'desc'})}
-              >
-                Name (desc)
-              </button>
-              <button
-                className={`btn btn-light mr-3 ${this.isActiveSort({type: 'date', sortBy:'asc'})}`}
-                onClick={() => this.props.onSort({type: 'date', sortBy:'asc'})}
-              >
-                Date (asc)
-              </button>
-              <button
-                className={`btn btn-light ${this.isActiveSort({type: 'date', sortBy:'desc'})}`}
-                onClick={() => this.props.onSort({type: 'date', sortBy:'desc'})}
-              >
-                Date (desc)
-              </button>
-            </div>
+            <h3>Filter by:</h3>
+            <LocationsMenu
+              options={SortingOptions}
+              activeOption={this.props.activeSort}
+              onClick={this.props.onSort.bind(this)}
+            />
           </div>
           <div className="col-6">
             <h3>Filter by:</h3>
-            <div>
-              <button
-                className={`btn btn-light mr-3 ${this.isFilterActive('Bulgaria') ? 'active' : ''}`}
-                onClick={() => this.props.onFilter('Bulgaria')}
-              >
-                Bulgaria
-                {this.isFilterActive('Bulgaria') && <span>&times;</span>}
-              </button>
-              <button
-                className={`btn btn-light mr-3 ${this.isFilterActive('Spain') ? 'active' : ''}`}
-                onClick={() => this.props.onFilter('Spain')}
-              >
-                Spain
-                {this.isFilterActive('Spain') && <span>&times;</span>}
-              </button>
-            </div>
+            <LocationsMenu
+              options={FilterOptions}
+              activeOption={this.props.activeFilter}
+              onClick={this.props.onFilter.bind(this)}
+            />
           </div>
         </div>
 
+        <div className="d-flex">
+          <h3>Locations</h3>
+          <small className="pl-2">(clickable)</small>
+        </div>
         <ul className="list-group mb-4">
           { this.props.locations && this.filterByCountryName(this.sort()).map((location: Location) => {
             let className = 'list-group-item';
 
             if (this.props.selectedLocation && location.id === this.props.selectedLocation.id) {
-              className += ' active';
+              className += ' active disabled';
             }
 
             return (
@@ -156,7 +108,8 @@ class Timeline extends React.Component<any> {
                 onClick={() => this.props.onLocationClick(location)}
                 key={`timeline-${location.id}`}
               >
-                  { `${location.city}, ${location.country}` }
+                  { `${location.city}, ${location.country}. Lived here from ${location.range.start} to ${location.range.end}` }
+                  { location.id === 1 ? `. Then again from 2008 isInRangeto 2015.` : null}
               </li>
             );
           }) }
